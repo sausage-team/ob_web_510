@@ -1,4 +1,4 @@
-import HelloWorld from './hello_word/index.vue'
+import HeaderNav from './header_nav/index.vue'
 
 interface ComponentBase {
   init (vue: any): void
@@ -6,7 +6,7 @@ interface ComponentBase {
 
 class GlobalComponents {
   public init (vue: any) {
-    vue.component('HelloWorld', HelloWorld)
+    vue.component('HeaderNav', HeaderNav)
   }
 }
 
