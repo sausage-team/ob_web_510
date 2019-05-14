@@ -228,6 +228,5 @@
 
 <script>
 import entry from './entry'
-import moment from 'moment';
 export default entry
 </script>
