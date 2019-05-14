@@ -5,6 +5,8 @@ import Login from '../pages/login/index.vue'
 import Register from '../pages/register/index.vue'
 import Home from '../pages/main/home/index.vue'
 import WriteTravelNotes from '../pages/main/write_travel_notes/index.vue'
+import Person from '../pages/main/person/index.vue'
+import Examine from '../pages/main/examine/index.vue'
 
 Vue.use(Router)
 
@@ -26,6 +28,16 @@ export default new Router({
           path: '/wtn',
           name: 'WriteTravelNotes',
           component: WriteTravelNotes
+        },
+        {
+          path: '/person',
+          name: 'person',
+          component: Person
+        },
+        {
+          path: '/examine',
+          name: 'examine',
+          component: Examine
         }
       ]
     },

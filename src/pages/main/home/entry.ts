@@ -1,4 +1,4 @@
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
 
 @Component
 export default class Home extends Vue {
@@ -18,6 +18,10 @@ export default class Home extends Vue {
     offset: 0,
     count: 2000
   }
+
+  public detail_modal: boolean = false
+
+  public art_id: string = ''
 
   public art_list: any[] = []
 
@@ -115,11 +119,27 @@ export default class Home extends Vue {
 
   public searchText: string = ''
 
+  @Emit()
+  public close_detail_modal (): void {
+    this.detail_modal = false
+  }
+
+  public toDetail (e: any, item: any): void {
+    e.stopPropagation()
+    this.art_id = item.id + ''
+    this.detail_modal = true
+  }
+
   public initIterVal (): void {
     this.interVal = setInterval(() => {
       this.count ++
       this.img = this.img_list[this.count % 5]
     }, 10000)
+  }
+
+  public searchList (): void {
+    this.params.offset = 0
+    this.search()
   }
 
   public write_art (e: any): void {
@@ -185,7 +205,12 @@ export default class Home extends Vue {
   }
 
   public search (): void {
-    this.homeService.getArtList(this.params).then((res: any) => {
+    this.homeService.getArtList({
+      ...this.params,
+      data: {
+        search: this.searchText
+      }
+    }).then((res: any) => {
       if (res.status === 0) {
         this.art_list = res.data.articles
       }

@@ -1,0 +1,150 @@
+
+.el-dialog__wrapper {
+  .el-dialog__body {
+    font-size: 12px;
+  }
+  
+  &.modal-lt {
+    .el-dialog {
+      width: 800px !important;
+    }
+  }
+
+  &.modal-md {
+    .el-dialog {
+      width: 600px !important;
+    }
+  }
+
+  &.modal-sm {
+    .el-dialog {
+      width: 400px !important;
+    }
+  }
+
+  &.modal-full {
+    .el-dialog {
+      border-radius: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0 !important;
+
+      .el-dialog__header {
+        width: 100%;
+        height: 64px;
+        padding: 0;
+        border-bottom: 1px solid rgba(24, 43, 77, .05);
+        box-shadow: 0 0 8px 0 rgba(16, 48, 102, .08);
+
+        .modal-header {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          padding: 20px;
+
+          & > i {
+            margin-right: 20px;
+            cursor: pointer;
+          }
+
+          & > span {
+            font-size: 16px;
+          }
+        }
+      }
+
+      .el-dialog__body {
+        background-color: #e5e5e5;
+        width: 100%;
+        padding: 0;
+        height: calc(100% - 120px);
+
+        .modal-body {
+          width: 100%;
+          max-width: 1200px;
+          height: 100%;
+          padding: 15px 0;
+          margin: 0 auto;
+        }
+      }
+
+      .el-dialog__footer {
+        width: 100%;
+        height: 56px;
+
+        .modal-footer {
+          .el-button {
+            &:hover {
+              background: #66b1ff;
+              border-color: #66b1ff;
+              color: #FFF;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .el-dialog {
+    border-radius: 10px;
+    .el-dialog__header {
+      
+      .modal-header {
+        display: flex;
+        width: 100%;
+        padding: 0;
+        border-bottom: 0;
+        line-height: 32px;
+        justify-content: space-between;
+        align-items: center;
+
+        & > span {
+          font-size: 14px;
+          color: rgba(5, 16, 33, .72);
+          font-weight: 600;
+        }
+
+        & > i {
+          display: block;
+          font-size: 20px;
+          cursor: pointer;
+        }
+      }
+
+      .el-dialog__headerbtn {
+        display: none;
+      }
+    }
+
+    .el-dialog__body {
+      padding: 4px;
+
+      .modal-body {
+        width: 100%;
+        height: calc(100% - 64px);
+        padding: 15px;
+      }
+    }
+
+    .el-dialog__footer {
+      border-top: 0;
+      padding: 0;
+
+      .modal-footer {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px;
+
+        .el-button {
+          padding: 10px;
+          &:hover {
+            background-color: rgba(41, 121, 255, .1);
+          }
+        }
+      }
+    }
+  }
+}

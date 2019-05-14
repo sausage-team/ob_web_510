@@ -1,6 +1,7 @@
 <template>
   <div class="home-main">
     <div class="slider-main">
+      <detail-modal v-model="detail_modal" @close_detail_modal="close_detail_modal" :art-id="art_id" />
       <div class="slider-image">
         <img :src="img" alt="">
       </div>
@@ -14,8 +15,8 @@
           <span>南美四重奏，一首美丽新世界的狂想曲</span>
         </div>
         <div class="search-box">
-          <el-input v-model="searchText" placeholder="搜目的地/攻略/酒店/旅行特价"></el-input>
-          <el-button icon="el-icon-search" type="primary"></el-button>
+          <el-input v-model="searchText" @keyup.enter.native="searchList()" placeholder="搜目的地/攻略/酒店/旅行特价"></el-input>
+          <el-button icon="el-icon-search" type="primary" @click="searchList()"></el-button>
         </div>
         <div class="menu-list">
           <ul>
@@ -188,7 +189,7 @@
         </div>
         <div class="con-body">
           <ul>
-            <li v-for="(item, index) in art_list" :key="index">
+            <li v-for="(item, index) in art_list" :key="index" @click="toDetail($event, item)">
               <div class="left-img">
                 <img :src="item.cover" alt="">
               </div>
@@ -206,7 +207,7 @@
                     <em>{{item.author || '未知'}}</em>
                   </span>
                   <span>
-                    {{utils.momentDate(item.created_time, 'data_h_time_h')}}
+                    {{utils.momentDate(item.created_time, 'date_time')}}
                   </span>
                 </div>
               </div>

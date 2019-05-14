@@ -9,8 +9,30 @@ export default class HeaderNav extends Vue {
 
   public icon: any = localStorage.getItem('icon')
 
-  public created () {
-    console.log(this.cookies.get('user_data'))
+  public created (): void {
+    this.routeCheck()
+  }
+
+  public routeCheck (): void {
+    switch (this.$route.name) {
+      case 'home':
+        this.activeIndex = '1'
+        break
+      case 'examine':
+        this.activeIndex = '2'
+        break
+      case 'person':
+        this.activeIndex = '3'
+        break
+      default:
+        this.activeIndex = '1'
+        break
+    }
+  }
+
+  @Watch('$route')
+  public routeChange (newVal: any): void {
+    this.routeCheck()
   }
 
   public sign (e: any): void {

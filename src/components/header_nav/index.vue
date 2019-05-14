@@ -9,10 +9,8 @@
     <div class="menu-main">
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
         <el-menu-item index="1" @click.native="viewGo($event, 'home')">首页</el-menu-item>
-        <el-menu-item index="2">目的地</el-menu-item>
-        <el-menu-item index="3">旅游攻略</el-menu-item>
-        <el-menu-item index="4">机票</el-menu-item>
-        <el-menu-item index="5">订酒店</el-menu-item>
+        <el-menu-item index="2" v-show="userData && userData.role === 1" @click.native="viewGo($event, 'examine')">游记审核</el-menu-item>
+        <el-menu-item index="3" @click.native="viewGo($event, 'person')">个人中心</el-menu-item>
       </el-menu>
     </div>
     <div class="user-main" v-show="!userData">
