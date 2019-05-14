@@ -29,7 +29,7 @@ export default class BaseService implements HttpBase {
     })
   }
 
-  public get (str: string, data: object, resolve: any): void {
+  public get (str: string, data: any, resolve: any): void {
     this.http.get(str, {
       params: data || {}
     }).then((res: any) => {
@@ -44,7 +44,7 @@ export default class BaseService implements HttpBase {
     })
   }
 
-  public delete (str: string, data: object, resolve: any): void {
+  public delete (str: string, data: any, resolve: any): void {
     this.http.delete(str, {
       params: data || {}
     }).then((res: any) => {
@@ -59,7 +59,7 @@ export default class BaseService implements HttpBase {
     })
   }
 
-  public put (str: string, data: object, resolve: any): void {
+  public put (str: string, data: any, resolve: any): void {
     this.http.put(str, data).then((res: any) => {
       if (res.status === 200 && res.data.status === 0) {
         resolve(res.data)
@@ -72,7 +72,7 @@ export default class BaseService implements HttpBase {
     })
   }
 
-  public post (str: string, data: object, resolve: any): void {
+  public post (str: string, data: any, resolve: any): void {
     this.http.post(str, data).then((res: any) => {
       if (res.status === 200 && res.data.status === 0) {
         resolve(res.data)

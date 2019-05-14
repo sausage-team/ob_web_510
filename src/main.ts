@@ -6,6 +6,7 @@ import echarts from 'echarts'
 import Cookies from 'js-cookie'
 
 import App from './App.vue'
+import utils from './utils'
 import router from './routers/router'
 import store from './stores'
 import { services } from './services'
@@ -23,8 +24,10 @@ Vue.prototype = Object.assign(Vue.prototype, {
   ...services,
   _: lodash,
   $: jquery,
+  utils,
   echarts,
-  cookies: Cookies
+  cookies: Cookies,
+  CKEDITOR: window.CKEDITOR
 })
 
 new Vue({

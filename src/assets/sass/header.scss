@@ -6,6 +6,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
+  &.not-home {
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    box-shadow: 0 0 10px 2px rgba(0,0,0,.06);
+  }
 
   .logo-main {
     width: 136px;
@@ -47,14 +54,54 @@
   .user-main {
     width: 180px;
     height: 100%;
+    margin-left: 80px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    &.has {
+      justify-content: flex-start;
+    }
 
     .spe-bor {
       width: 1px;
       height: 15px;
       background-color: #409EFF;
+    }
+
+    .icon-box {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #409EFF;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 10px;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+      }
+
+    }
+    & > .user-box {
+      font-size: 14px;
+      max-width: 100px;
+      margin-right: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .logout {
+      width: 20px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      & > i {
+        font-size: 18px;
+      }
     }
   }
 

@@ -25,7 +25,25 @@ export default class Login extends Vue {
     const form: any = this.$refs.loginForm
     form.validate((valid: any) => {
       if (valid) {
-        console.log(1)
+        this.homeService.login({
+          ...this.loginForm,
+          user: undefined,
+          username: this.loginForm.user
+        }).then((res: any) => {
+          if (res.status === 0) {
+            this.$message.success('登陆成功')
+            this.cookies.set('user_data', {
+              ...res.data,
+              icon: undefined
+            })
+            localStorage.setItem('icon', res.data.icon)
+            this.$router.push({
+              name: 'home'
+            })
+          } else {
+            this.$message.error(res.msg || '登录失败')
+          }
+        })
       }
     })
   }

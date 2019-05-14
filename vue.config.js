@@ -12,7 +12,15 @@ for (let key in devProxy) {
 }
 
 module.exports = {
-  // publicPath: `http://${host}:${port}/#/`,
+  // configureWebpack: {
+  //   module: {
+  //     rules: [{
+  //       test: [/\.(ttf|eot|woff|woff2|svg)$/, /static\/ckeditor\.js$/],
+  //       use:['file-loader']
+  //     }]
+  //   }
+  // },
+  // publicPath: `static`,
   // 选项...
   // 当使用基于  HTML 5 history.pushState 的路由时；
   // 当使用 pages 选项构建多页面应用时。
@@ -20,7 +28,7 @@ module.exports = {
   // 当运行 vue-cli-service build 时生成的生产环境构建文件的目录。注意目标目录在构建之前会被清除 (构建时传入 --no-clean 可关闭该行为)。
   // outputDir:"dist",
   // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
-  // assetsDir:"assets",
+  // assetsDir:"static",
   // 指定生成的 index.html 的输出路径 (相对于 outputDir)。也可以是一个绝对路径。
   // indexPath:"index.html",
   // 默认情况下，生成的静态资源在它们的文件名中包含了 hash 以便更好的控制缓存。然而，这也要求 index 的 HTML 是被 Vue CLI 自动生成的。如果你无法使用 Vue CLI 生成的 index HTML，你可以通过将这个选项设为 false 来关闭文件名哈希。

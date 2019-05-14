@@ -25,7 +25,21 @@ export default class Register extends Vue {
     const form: any = this.$refs.registerForm
     form.validate((valid: any) => {
       if (valid) {
-        console.log(1)
+        this.homeService.register({
+          ...this.registerForm,
+          username: this.registerForm.user,
+          user: undefined,
+          confirm: undefined
+        }).then((res: any) => {
+          if (res.status === 0) {
+            this.$message.success('注册成功')
+            this.$router.push({
+              name: 'login'
+            })
+          } else {
+            this.$message.error(res.msg || '注册失败')
+          }
+        })
       }
     })
   }

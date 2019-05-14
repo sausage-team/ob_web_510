@@ -1,0 +1,89 @@
+.tn-main {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+
+  .editor-main {
+    width: 200px;
+    height: 200px;
+  }
+
+  .tn-con {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    .tn-header {
+      margin-top: 20px;
+      height: 70px;
+      border-bottom: 2px solid #ddd;
+
+      & > span {
+        font-size: 18px;
+        line-height: 70px;
+        text-indent: 3px;
+      }
+    }
+
+    .tn-body {
+      margin-top: 20px;
+
+      .upload {
+        margin-bottom: 20px;
+        width: 100%;
+        height: 168px;
+        background-color: #fff;
+        overflow: hidden;
+        padding: 10px;
+        .el-upload {
+          width: 100%;
+          & > i {
+            display: block;
+            margin-top: 40px;
+          }
+
+          & > span {
+            display: block;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+          }
+        }
+
+        .el-upload-list {
+          width: 100%;
+          height: 100%;
+          background-color: #fff;
+          justify-content: center;
+          display: none;
+
+          & > li {
+            margin: 0;
+          }
+        }
+
+        &.has-img {
+          .el-upload {
+            display: none;
+          }
+
+          .el-upload-list {
+            display: flex;
+          }
+        }
+      }
+
+      & > .el-input {
+        margin-bottom: 10px;
+      }
+
+      .ckeditor {
+        width: 100%;
+      }
+    }
+
+    .tn-footer {
+      margin-top: 20px;
+    }
+  }
+}

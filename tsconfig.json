@@ -42,7 +42,8 @@
     "src/shims/vue-config.d.ts",
     "src/shims/vue-services.d.ts",
     "types/shims-vue.d.ts",
-    "types/shims-tsx.d.ts"
+    "types/shims-tsx.d.ts",
+    "src/shims/window.d.ts",
   ],
   "exclude": [
     "node_modules"

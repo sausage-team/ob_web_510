@@ -4,6 +4,7 @@ import Main from '../pages/main/index.vue'
 import Login from '../pages/login/index.vue'
 import Register from '../pages/register/index.vue'
 import Home from '../pages/main/home/index.vue'
+import WriteTravelNotes from '../pages/main/write_travel_notes/index.vue'
 
 Vue.use(Router)
 
@@ -20,6 +21,11 @@ export default new Router({
           path: '/',
           name: 'home',
           component: Home
+        },
+        {
+          path: '/wtn',
+          name: 'WriteTravelNotes',
+          component: WriteTravelNotes
         }
       ]
     },

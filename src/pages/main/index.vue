@@ -1,6 +1,8 @@
 <template>
   <div class="main-main">
     <header-nav></header-nav>
-    <router-view/>
+    <div class="main-body">
+      <router-view/>
+    </div>
   </div>
 </template>

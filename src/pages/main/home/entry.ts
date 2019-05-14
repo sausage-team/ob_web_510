@@ -3,6 +3,8 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 @Component
 export default class Home extends Vue {
 
+  public icon: any = localStorage.getItem('icon')
+  public currentPage: number = 1
   public count: number = 0
   public img_list: string[] = [
     'https://n2-q.mafengwo.net/s13/M00/4D/99/wKgEaVzWeoWAUU_bAAs2IhV-Ei449.jpeg?imageMogr2%2Finterlace%2F1',
@@ -11,6 +13,13 @@ export default class Home extends Vue {
     'https://p2-q.mafengwo.net/s13/M00/95/C7/wKgEaVzT6LKAbcE1AAj3FOEdO0M01.jpeg?imageMogr2%2Finterlace%2F1',
     'https://b4-q.mafengwo.net/s13/M00/42/6D/wKgEaVzSOGWAXY0HAAqIpxTd3O000.jpeg?imageMogr2%2Finterlace%2F1'
   ]
+
+  public params: any = {
+    offset: 0,
+    count: 2000
+  }
+
+  public art_list: any[] = []
 
   public slider_list: any[] = [
     {
@@ -40,13 +49,42 @@ export default class Home extends Vue {
     }
   ]
 
+  public slider_list1: any[] = [
+    {
+      title: '票选全球旅行C位榜',
+      img: 'https://n2-q.mafengwo.net/s13/M00/56/A8/wKgEaVzOP3yAYrmfAAFDgial_sQ1' +
+      '3.jpeg?imageView2%2F2%2Fw%2F260%2Fh%2F178%2Fq%2F90',
+      con: '加入中国人保旅行评审团，赢大奖'
+    },
+    {
+      title: '选择南航，爱上悉尼每一秒',
+      img: 'https://p4-q.mafengwo.net/s13/M00/B5/14/wKgEaVzFKUaAbtYvAAHsPkx-JKQ05' +
+      '.jpeg?imageView2%2F2%2Fw%2F260%2Fh%2F178%2Fq%2F90',
+      con: '追着灯光，打卡新南威尔士州'
+    },
+    {
+      title: '巴山大峡谷旅行摄影研习社',
+      img: 'https://b1-q.mafengwo.net/s13/M00/A2/E2/wKgEaVycfy2AdX8nAAG2nu3fFV851' +
+      '.jpeg?imageView2%2F2%2Fw%2F260%2Fh%2F178%2Fq%2F90',
+      con: '免费报名，掌握摄影大师级操作！'
+    },
+    {
+      title: '马蜂窝拍卖行',
+      img: 'https://b4-q.mafengwo.net/s8/M00/91/94/wKgBpVWTULKAJN44AABd8Gtn0o437.' +
+      'jpeg?imageView2%2F2%2Fw%2F260%2Fh%2F178%2Fq%2F90',
+      con: '每周二：拍精美实物奖品！'
+    }
+  ]
+
   public img: string = this.img_list[0]
 
   public interVal: any
 
   public menuInterVal: any
+  public menuInterVal1: any
 
   public menu_count: number = 0
+  public menu_count1: number = 0
 
   public menu_list: any[] = [
     {
@@ -84,12 +122,29 @@ export default class Home extends Vue {
     }, 10000)
   }
 
+  public write_art (e: any): void {
+    e.stopPropagation()
+    this.$router.push({
+      name: 'WriteTravelNotes'
+    })
+  }
+
   public initMenuInterVal (): void {
     this.menuInterVal = setInterval(() => {
       this.menu_count++
       const tmp: any = this.$refs.slider_menu
       this.$(tmp).animate({
         scrollLeft: (this.menu_count % 5) * 260
+      }, 500)
+    }, 10000)
+  }
+
+  public initMenuInterVal1 (): void {
+    this.menuInterVal1 = setInterval(() => {
+      this.menu_count1++
+      const tmp: any = this.$refs.slider_menu1
+      this.$(tmp).animate({
+        scrollLeft: (this.menu_count1 % 4) * 260
       }, 500)
     }, 10000)
   }
@@ -114,8 +169,36 @@ export default class Home extends Vue {
     this.initMenuInterVal()
   }
 
+  public chooseSlider1 (e: any, index: number): void {
+    e.stopPropagation()
+    window.clearInterval(this.menuInterVal1)
+    this.menu_count1 = index
+    const tmp: any = this.$refs.slider_menu1
+    this.$(tmp).animate({
+      scrollLeft: (this.menu_count1 % 4) * 260
+    }, 500)
+    this.initMenuInterVal()
+  }
+
+  public init (): void {
+    this.search()
+  }
+
+  public search (): void {
+    this.homeService.getArtList(this.params).then((res: any) => {
+      if (res.status === 0) {
+        this.art_list = res.data.articles
+      }
+    })
+  }
+
   public mounted (): void {
     this.initIterVal()
     this.initMenuInterVal()
+    this.initMenuInterVal1()
+  }
+
+  public created (): void {
+    this.init()
   }
 }

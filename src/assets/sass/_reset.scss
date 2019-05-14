@@ -43,3 +43,8 @@ table { border-collapse:collapse; }
 html { overflow-y: auto; }
 html,body{ width:100%;height:100%; }
 label{font-weight: normal;}
+.cke_reset,
+.cke_reset_all, 
+.cke_reset_all * {
+  box-sizing: content-box !important;
+}
