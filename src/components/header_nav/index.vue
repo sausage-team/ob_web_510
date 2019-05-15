@@ -13,12 +13,12 @@
         <el-menu-item index="3" @click.native="viewGo($event, 'person')">个人中心</el-menu-item>
       </el-menu>
     </div>
-    <div class="user-main" v-show="!userData">
+    <div class="user-main" v-show="!userData || !userData.username">
       <el-button type="text" @click="sign($event)">登录</el-button>
       <div class="spe-bor"></div>
       <el-button type="text" @click="register($event)">注册</el-button>
     </div>
-    <div class="user-main has" v-show="userData">
+    <div class="user-main has" v-show="userData && userData.username">
       <div class="icon-box">
         <img :src="icon" alt="">
       </div>

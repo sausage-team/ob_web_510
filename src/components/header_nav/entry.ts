@@ -5,7 +5,7 @@ export default class HeaderNav extends Vue {
 
   public activeIndex: string = '1'
 
-  public userData: any = this.cookies.get('user_data') ? JSON.parse(this.cookies.get('user_data')) : null
+  public userData: any = this.cookies.get('user_data') ? JSON.parse(this.cookies.get('user_data')) : {}
 
   public icon: any = localStorage.getItem('icon')
 
