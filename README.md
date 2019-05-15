@@ -1,37 +1,26 @@
-# vue_ts
+# 游记前端文档
 
-## Project setup
-```
-yarn install
-```
+[项目地址](https://github.com/sausage-team/ob_web_510)
 
-### Compiles and hot-reloads for development
+* node 安装(稳定版 10.15.3)
+* node环境配置[（环境搭建）](https://www.cnblogs.com/liuqiyun/p/8133904.html)
+* 依赖环境安装
 ```
-yarn run serve
-```
-
-### Compiles and minifies for production
-```
-yarn run build
+npm install -g yarn
+npm install vue-cli -g
+npm install yarn -g
 ```
 
-### Run your tests
+* 项目启动
 ```
-yarn run test
+cd 项目目录
+yarn
+yarn serve
+
+打开浏览器，输入:localhost:8080
 ```
 
-### Lints and fixes files
-```
-yarn run lint
-```
+服务端接口配置：
+（项目目录/config/proxy.config.js）
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-### Contact
-Wechat
-![contact](./wechat.jpeg)
-
-QQ
-![contact](./QQ.jpeg)
-
+    将（192.168.2.103）改为服务端启动地址
