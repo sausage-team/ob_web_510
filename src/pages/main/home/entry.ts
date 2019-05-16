@@ -6,6 +6,55 @@ export default class Home extends Vue {
   public icon: any = localStorage.getItem('icon')
   public currentPage: number = 1
   public count: number = 0
+
+  public prefer_text: string = '所有分类'
+  public order_text: string = '默认排序'
+
+  public prefer_list: any[] = [
+    {
+      name: '所有分类',
+      value: 0
+    },
+    {
+      name: '人文',
+      value: 1
+    },
+    {
+      name: '风景',
+      value: 2
+    },
+    {
+      name: '美食',
+      value: 3
+    },
+    {
+      name: '历史',
+      value: 4
+    },
+    {
+      name: '民俗',
+      value: 5
+    }
+  ]
+
+  public order_list: any[] = [
+    {
+      name: '默认排序',
+      value: 0
+    },
+    {
+      name: '点赞数排序',
+      value: 1
+    },
+    {
+      name: '浏览量排序',
+      value: 2
+    }
+  ]
+
+  public filter_type: number = 0
+  public sort_type: number = 0
+
   public img_list: string[] = [
     'https://n2-q.mafengwo.net/s13/M00/4D/99/wKgEaVzWeoWAUU_bAAs2IhV-Ei449.jpeg?imageMogr2%2Finterlace%2F1',
     'https://b2-q.mafengwo.net/s13/M00/4B/E5/wKgEaVzWeXaAVxyQAAkiLzvilDQ16.jpeg?imageMogr2%2Finterlace%2F1',
@@ -19,7 +68,7 @@ export default class Home extends Vue {
     count: 2000
   }
 
-  public detail_modal: boolean = false
+  public modals: Modal = new Modal()
 
   public art_id: string = ''
 
@@ -53,42 +102,13 @@ export default class Home extends Vue {
     }
   ]
 
-  public slider_list1: any[] = [
-    {
-      title: '票选全球旅行C位榜',
-      img: 'https://n2-q.mafengwo.net/s13/M00/56/A8/wKgEaVzOP3yAYrmfAAFDgial_sQ1' +
-      '3.jpeg?imageView2%2F2%2Fw%2F260%2Fh%2F178%2Fq%2F90',
-      con: '加入中国人保旅行评审团，赢大奖'
-    },
-    {
-      title: '选择南航，爱上悉尼每一秒',
-      img: 'https://p4-q.mafengwo.net/s13/M00/B5/14/wKgEaVzFKUaAbtYvAAHsPkx-JKQ05' +
-      '.jpeg?imageView2%2F2%2Fw%2F260%2Fh%2F178%2Fq%2F90',
-      con: '追着灯光，打卡新南威尔士州'
-    },
-    {
-      title: '巴山大峡谷旅行摄影研习社',
-      img: 'https://b1-q.mafengwo.net/s13/M00/A2/E2/wKgEaVycfy2AdX8nAAG2nu3fFV851' +
-      '.jpeg?imageView2%2F2%2Fw%2F260%2Fh%2F178%2Fq%2F90',
-      con: '免费报名，掌握摄影大师级操作！'
-    },
-    {
-      title: '马蜂窝拍卖行',
-      img: 'https://b4-q.mafengwo.net/s8/M00/91/94/wKgBpVWTULKAJN44AABd8Gtn0o437.' +
-      'jpeg?imageView2%2F2%2Fw%2F260%2Fh%2F178%2Fq%2F90',
-      con: '每周二：拍精美实物奖品！'
-    }
-  ]
-
   public img: string = this.img_list[0]
 
   public interVal: any
 
   public menuInterVal: any
-  public menuInterVal1: any
 
   public menu_count: number = 0
-  public menu_count1: number = 0
 
   public menu_list: any[] = [
     {
@@ -119,15 +139,69 @@ export default class Home extends Vue {
 
   public searchText: string = ''
 
+  public fav_list: any[] = []
+
   @Emit()
   public close_detail_modal (): void {
-    this.detail_modal = false
+    this.modals.detail_modal = false
+    this.init()
+  }
+
+  @Emit()
+  public close_tip_modal (): void {
+    this.modals.tip_modal = false
+  }
+
+  public choose_prefer_filter (e: any, name: string, id: number): void {
+    e.stopPropagation()
+    this.prefer_text = name
+    this.filter_type = id
+    this.search()
+  }
+
+  public choose_order_filter (e: any, name: string, id: number): void {
+    e.stopPropagation()
+    this.order_text = name
+    this.sort_type = id
+    this.search()
+  }
+
+  public fav_article (e: any, item: any): void {
+    e.stopPropagation()
+    this.homeService.collectArticle({
+      pk: item.id
+    }).then((res: any) => {
+      if (res.status === 0) {
+        this.$message.success('操作成功')
+        this.init()
+      } else {
+        this.$message.error(res.msg || '操作失败')
+      }
+    })
+  }
+
+  public thumb_article (e: any, item: any): void {
+    e.stopPropagation()
+    this.homeService.thumbArticle({
+      pk: item.id
+    }).then((res: any) => {
+      if (res.status === 0) {
+        this.$message.success('操作成功')
+        this.init()
+      } else {
+        this.$message.error(res.msg || '操作失败')
+      }
+    })
+  }
+
+  public open_tip_modal (): void {
+    this.modals.tip_modal = true
   }
 
   public toDetail (e: any, item: any): void {
     e.stopPropagation()
     this.art_id = item.id + ''
-    this.detail_modal = true
+    this.modals.detail_modal = true
   }
 
   public initIterVal (): void {
@@ -150,23 +224,15 @@ export default class Home extends Vue {
   }
 
   public initMenuInterVal (): void {
-    this.menuInterVal = setInterval(() => {
-      this.menu_count++
-      const tmp: any = this.$refs.slider_menu
-      this.$(tmp).animate({
-        scrollLeft: (this.menu_count % 5) * 260
-      }, 500)
-    }, 10000)
-  }
-
-  public initMenuInterVal1 (): void {
-    this.menuInterVal1 = setInterval(() => {
-      this.menu_count1++
-      const tmp: any = this.$refs.slider_menu1
-      this.$(tmp).animate({
-        scrollLeft: (this.menu_count1 % 4) * 260
-      }, 500)
-    }, 10000)
+    if (this.fav_list && this.fav_list.length > 0) {
+      this.menuInterVal = setInterval(() => {
+        this.menu_count++
+        const tmp: any = this.$refs.slider_menu
+        this.$(tmp).animate({
+          scrollLeft: (this.menu_count % this.fav_list.length) * 260
+        }, 500)
+      }, 10000)
+    }
   }
 
   public chooseImg (e: any, index: number = 0): void {
@@ -184,31 +250,34 @@ export default class Home extends Vue {
     this.menu_count = index
     const tmp: any = this.$refs.slider_menu
     this.$(tmp).animate({
-      scrollLeft: (this.menu_count % 5) * 260
+      scrollLeft: (this.menu_count % this.fav_list.length) * 260
     }, 500)
     this.initMenuInterVal()
   }
 
-  public chooseSlider1 (e: any, index: number): void {
-    e.stopPropagation()
-    window.clearInterval(this.menuInterVal1)
-    this.menu_count1 = index
-    const tmp: any = this.$refs.slider_menu1
-    this.$(tmp).animate({
-      scrollLeft: (this.menu_count1 % 4) * 260
-    }, 500)
-    this.initMenuInterVal()
+  public getFavList () {
+    this.homeService.getFavArtList({
+      offset: 0,
+      count: 5
+    }).then((res: any) => {
+      if (res.status === 0) {
+        this.fav_list = res.data.articles
+      }
+    })
   }
 
   public init (): void {
     this.search()
+    this.getFavList()
   }
 
   public search (): void {
     this.homeService.getArtList({
       ...this.params,
       data: {
-        search: this.searchText
+        search: this.searchText,
+        filter_type: this.filter_type,
+        sort_type: this.sort_type
       }
     }).then((res: any) => {
       if (res.status === 0) {
@@ -220,10 +289,24 @@ export default class Home extends Vue {
   public mounted (): void {
     this.initIterVal()
     this.initMenuInterVal()
-    this.initMenuInterVal1()
   }
 
   public created (): void {
     this.init()
+  }
+}
+
+class Modal {
+  public detail_modal: boolean
+  public tip_modal: boolean
+
+  constructor () {
+    [
+      this.detail_modal,
+      this.tip_modal
+    ] = [
+      false,
+      false
+    ]
   }
 }

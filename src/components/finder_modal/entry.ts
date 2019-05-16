@@ -1,17 +1,18 @@
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
 @Component
-export default class Login extends Vue {
+export default class FinderModal extends Vue {
 
-  public loginForm: LoginForm = new LoginForm()
-  public loginRule: LoginRule = new LoginRule()
-  public finder_modal: boolean = false
+  @Prop({
+    type: Boolean,
+    default: false
+  }) public value !: boolean
+
+  public finderForm: FinderForm = new FinderForm()
+  public finderRule: FinderRule = new FinderRule(this.finderForm)
+
 
   public mounted (): void {
-    const num: number = Math.floor(Math.random() * 11) + 1
-    const lm: any = this.$refs.login_main
-    this.$(lm).attr('class', `flur-box login-bg${num}`)
-
     this.$(document).on('focusin', '.item-input > input', (e: any) => {
       this.$(e.target).parent('.item-input').parent('.el-form-item__content').find('label').attr('class', 'show')
     })
@@ -22,56 +23,45 @@ export default class Login extends Vue {
     })
   }
 
-  @Emit()
-  public close_finder_modal () {
-    this.finder_modal = false
-  }
-
-  public finder_pwd (): void {
-    this.finder_modal = true
-  }
-
-  public sigin (): void {
-    const form: any = this.$refs.loginForm
+  public finder (): void {
+    const form: any = this.$refs.finderForm
     form.validate((valid: any) => {
       if (valid) {
-        this.homeService.login({
-          ...this.loginForm,
-          user: undefined,
-          username: this.loginForm.user
+        this.homeService.forgetPassword({
+          ...this.finderForm,
+          username: this.finderForm.user,
+          user: undefined
         }).then((res: any) => {
           if (res.status === 0) {
-            this.$message.success('登陆成功')
-            this.cookies.set('user_data', {
-              ...res.data,
-              icon: undefined
-            })
-            localStorage.setItem('icon', res.data.icon)
-            this.$router.push({
-              name: 'home'
-            })
+            this.$message.success('找回成功')
+            this.close()
           } else {
-            this.$message.error(res.msg || '登录失败')
+            this.$message.error(res.msg || '找回失败')
           }
         })
       }
     })
   }
 
-  public register (): void {
-    this.$router.push({
-      name: 'register'
-    })
+  public close (): void {
+    this.$emit('close_finder_modal')
   }
 
 }
 
-class LoginForm {
+class FinderForm {
   public user: string
   public password: string
+  public confirm: string
+  public phone: string
 
   constructor () {
-    [ this.user, this.password ] = [ '', '' ]
+    [
+      this.user,
+      this.password,
+      this.confirm,
+      this.phone
+    ] = [ '', '', '', '', '', 0 ]
   }
 }
 
@@ -80,7 +70,11 @@ class Rule {
   public trigger: string
   public validator: any
 
-  constructor (type: string, require: boolean = true, trigger: string = 'blur') {
+  constructor (
+    type: string,
+    require: boolean = true,
+    trigger: string = 'blur',
+    form: FinderForm = new FinderForm()) {
     let message: string
     {
       message = (() => {
@@ -89,6 +83,10 @@ class Rule {
             return '用户名不能为空'
           case 'password':
             return '密码不能为空'
+          case 'confirm':
+            return '第二次输入不能为空'
+          case 'phone':
+            return '手机号码不能为空'
           default:
             return '用户名不能为空'
         }
@@ -121,6 +119,11 @@ class Rule {
               }
             }
           }
+          if (type === 'confirm') {
+            if (value !== form.password) {
+              callback(new Error('两次密码不一致'))
+            }
+          }
           callback()
         }
       }
@@ -128,17 +131,23 @@ class Rule {
   }
 }
 
-class LoginRule {
+class FinderRule {
   public user: Rule
   public password: Rule
+  public confirm: Rule
+  public phone: Rule
 
-  constructor () {
+  constructor (form: FinderForm = new FinderForm()) {
     [
       this.user,
-      this.password
+      this.password,
+      this.confirm,
+      this.phone
     ] = [
       new Rule('user'),
-      new Rule('password')
+      new Rule('password'),
+      new Rule('confirm', true, 'blur', form),
+      new Rule('phone')
     ]
   }
 }

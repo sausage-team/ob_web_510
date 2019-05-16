@@ -6,6 +6,33 @@ export default class Register extends Vue {
   public registerForm: RegisterForm = new RegisterForm()
   public registerRule: RegisterRule = new RegisterRule(this.registerForm)
 
+  public preferList: any[] = [
+    {
+      name: '所有',
+      value: 0
+    },
+    {
+      name: '人文',
+      value: 1
+    },
+    {
+      name: '风景',
+      value: 2
+    },
+    {
+      name: '美食',
+      value: 3
+    },
+    {
+      name: '历史',
+      value: 4
+    },
+    {
+      name: '民俗',
+      value: 5
+    }
+  ]
+
   public mounted (): void {
     const num: number = Math.floor(Math.random() * 11) + 1
     const lm: any = this.$refs.register_main
@@ -28,6 +55,8 @@ export default class Register extends Vue {
         this.homeService.register({
           ...this.registerForm,
           username: this.registerForm.user,
+          place: this.registerForm.address,
+          address: undefined,
           user: undefined,
           confirm: undefined
         }).then((res: any) => {
@@ -56,14 +85,18 @@ class RegisterForm {
   public password: string
   public confirm: string
   public phone: string
+  public address: string
+  public prefer: number
 
   constructor () {
     [
       this.user,
       this.password,
       this.confirm,
-      this.phone
-    ] = [ '', '', '', '' ]
+      this.phone,
+      this.address,
+      this.prefer
+    ] = [ '', '', '', '', '', 0 ]
   }
 }
 
@@ -89,6 +122,8 @@ class Rule {
             return '第二次输入不能为空'
           case 'phone':
             return '手机号码不能为空'
+          case 'address':
+            return '居住地不能为空'
           default:
             return '用户名不能为空'
         }
@@ -105,8 +140,23 @@ class Rule {
         if (value === '') {
           callback(new Error(message))
         } else {
+          if (type === 'password') {
+            if (value.length < 5 || value.length > 16) {
+              callback(new Error('密码必须在5~16位'))
+            }
+          }
+          if (type === 'user') {
+            if (value.length < 5) {
+              callback(new Error('账号长度不能低于5位'))
+            } else {
+              const user_reg: RegExp = /^[a-zA-Z]{1}[a-zA-z0-9_]+$/g
+
+              if (!user_reg.test(value)) {
+                callback(new Error('用户名不合法'))
+              }
+            }
+          }
           if (type === 'confirm') {
-            console.log(form)
             if (value !== form.password) {
               callback(new Error('两次密码不一致'))
             }
@@ -123,18 +173,21 @@ class RegisterRule {
   public password: Rule
   public confirm: Rule
   public phone: Rule
+  public address: Rule
 
   constructor (form: RegisterForm = new RegisterForm()) {
     [
       this.user,
       this.password,
       this.confirm,
-      this.phone
+      this.phone,
+      this.address
     ] = [
       new Rule('user'),
       new Rule('password'),
       new Rule('confirm', true, 'blur', form),
-      new Rule('phone')
+      new Rule('phone'),
+      new Rule('address')
     ]
   }
 }

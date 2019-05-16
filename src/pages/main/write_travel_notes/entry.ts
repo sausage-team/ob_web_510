@@ -14,6 +14,37 @@ export default class WriteTravelNotes extends Vue {
 
   public dialogVisible: boolean = false
 
+  public prefer_text: string = '所有分类'
+
+  public category: number = 0
+
+  public prefer_list: any[] = [
+    {
+      name: '所有分类',
+      value: 0
+    },
+    {
+      name: '人文',
+      value: 1
+    },
+    {
+      name: '风景',
+      value: 2
+    },
+    {
+      name: '美食',
+      value: 3
+    },
+    {
+      name: '历史',
+      value: 4
+    },
+    {
+      name: '民俗',
+      value: 5
+    }
+  ]
+
   public mounted (): void {
     this.editor = this.CKEDITOR.replace('editor', {
       filebrowserImageUploadUrl: '/api/article/cover?type=image'
@@ -46,9 +77,13 @@ export default class WriteTravelNotes extends Vue {
     this.imgUrl = ''
   }
 
+  public choose_prefer_filter (e: any, name: string, id: number): void {
+    this.prefer_text = name
+    this.category = id
+  }
+
   public handlePictureCardPreview (file: any): void {
     this.dialogImageUrl = file.url
-    console.log(this.dialogImageUrl)
     this.dialogVisible = true
   }
 
@@ -81,7 +116,8 @@ export default class WriteTravelNotes extends Vue {
       author: userData.username,
       cover: this.imgUrl,
       preview: text,
-      content: htmlText
+      content: htmlText,
+      category: this.category
     }).then((res: any) => {
       if (res.status === 0) {
         this.$message.success('保存成功')

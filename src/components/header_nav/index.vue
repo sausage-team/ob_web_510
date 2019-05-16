@@ -1,8 +1,8 @@
 <template>
   <div :class="{
     'header-main': true,
-    'not-home': $route.name !== 'home'
-  }">
+    'not-home': $route.name !== 'home'}">
+    <person-modal v-model="person_modal" @close_person_modal="close_person_modal" />
     <div class="logo-main">
       <div class="logo" @click="viewGo($event, 'home')"></div>
     </div>
@@ -10,7 +10,8 @@
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
         <el-menu-item index="1" @click.native="viewGo($event, 'home')">首页</el-menu-item>
         <el-menu-item index="2" v-show="userData && userData.role === 1" @click.native="viewGo($event, 'examine')">游记审核</el-menu-item>
-        <el-menu-item index="3" @click.native="viewGo($event, 'person')">个人中心</el-menu-item>
+        <el-menu-item index="3" @click.native="viewGo($event, 'person')">个人游记</el-menu-item>
+        <el-menu-item index="4" @click.native="viewGo($event, 'collection')">收藏夹</el-menu-item>
       </el-menu>
     </div>
     <div class="user-main" v-show="!userData || !userData.username">
@@ -22,7 +23,7 @@
       <div class="icon-box">
         <img :src="icon" alt="">
       </div>
-      <div class="user-box">
+      <div class="user-box" @click="open_person_modal">
         <span>{{userData.username}}</span>
       </div>
       <div class="logout">

@@ -7,6 +7,7 @@ import Home from '../pages/main/home/index.vue'
 import WriteTravelNotes from '../pages/main/write_travel_notes/index.vue'
 import Person from '../pages/main/person/index.vue'
 import Examine from '../pages/main/examine/index.vue'
+import Collection from '../pages/main/collection/index.vue'
 
 Vue.use(Router)
 
@@ -38,6 +39,11 @@ export default new Router({
           path: '/examine',
           name: 'examine',
           component: Examine
+        },
+        {
+          path: '/collection',
+          name: 'collection',
+          component: Collection
         }
       ]
     },

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import * as ElementUI from 'element-ui'
+import iview from 'iview'
 import lodash from 'lodash'
 import jquery from 'jquery'
 import echarts from 'echarts'
@@ -14,10 +15,12 @@ import Components from './components'
 import './sw/registerServiceWorker'
 
 import 'element-ui/lib/theme-chalk/index.css'
+import 'iview/dist/styles/iview.css'
 import './assets/sass/main.scss'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.use(iview)
 Components.init(Vue)
 
 Vue.prototype = Object.assign(Vue.prototype, {

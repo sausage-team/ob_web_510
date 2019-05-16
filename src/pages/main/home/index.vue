@@ -1,7 +1,8 @@
 <template>
   <div class="home-main">
     <div class="slider-main">
-      <detail-modal v-model="detail_modal" @close_detail_modal="close_detail_modal" :art-id="art_id" />
+      <detail-modal v-model="modals.detail_modal" @close_detail_modal="close_detail_modal" :art-id="art_id" />
+      <tip-modal v-model="modals.tip_modal" @close_tip_modal="close_tip_modal"></tip-modal>
       <div class="slider-image">
         <img :src="img" alt="">
       </div>
@@ -29,153 +30,31 @@
         </div>
       </div>
     </div>
-    <div class="menu-main">
-      <ul>
-        <li v-for="(item, index) in menu_list" :key="index">
-          <div class="menu-item">
-            <span>{{item.name}}</span>
-            <span>{{item.text}}</span>
-          </div>
-        </li>
-      </ul>
-    </div>
     <div class="con-body">
       <div class="con-left">
-        <div class="tip">
+        <div class="tip" @click="open_tip_modal">
           <img src="http://images.mafengwo.net/images/safety-prevention/index-link.png" alt="">
         </div>
-        <div class="left-slider-main">
+        <div class="left-slider-main" v-if="fav_list && fav_list.length > 0">
           <div class="slider-menu">
             <ul>
-              <li v-for="(item, index) in slider_list" :key="index" @click="chooseSlider($event, index)" :class="{'active': menu_count % 5 === index}"></li>
+              <li v-for="(item, index) in fav_list" :key="index" @click="chooseSlider($event, index)" :class="{'active': menu_count % fav_list.length === index}"></li>
             </ul>
           </div>
           <div class="slider-title">
             <span>旅行家专栏</span>
-            <span>专栏首页</span>
           </div>
           <div class="slider-box" ref="slider_menu">
             <ul>
-              <li v-for="(item, index) in slider_list" :key="index">
+              <li v-for="(item, index) in fav_list" :key="index">
                 <div class="img-box">
-                  <img :src="item.img" alt="">
+                  <img :src="item.cover" alt="">
                 </div>
-                <div class="title">
+                <div class="title" @click="toDetail($event, item)">
                   {{item.title}}
                 </div>
                 <div class="con">
-                  {{item.con}}
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="slider-item">
-          <div class="slider-title">
-            <span>旅游攻略推荐</span>
-            <span>更多</span>
-          </div>
-          <div class="item-con">
-            <img src="https://b2-q.mafengwo.net/s13/M00/DD/42/wKgEaVySTtyAZIgNAAK7Sc9uhPw62.jpeg?imageMogr2%2Fthumbnail%2F%21260x139r%2Fgravity%2FCenter%2Fcrop%2F%21260x139%2Fquality%2F100" alt="">
-            <span>九寨沟攻略 | 阿坝藏族羌族自治州九寨沟景区攻略...</span>
-          </div>
-        </div>
-        <div class="left-slider-main item1">
-          <div class="slider-menu">
-            <ul>
-              <li v-for="(item, index) in slider_list1" :key="index" @click="chooseSlider1($event, index)" :class="{'active': menu_count1 % 4 === index}"></li>
-            </ul>
-          </div>
-          <div class="slider-title">
-            <span>最新活动</span>
-            <span>查看全部&gt;</span>
-          </div>
-          <div class="slider-box" ref="slider_menu1">
-            <ul>
-              <li v-for="(item, index) in slider_list1" :key="index">
-                <div class="img-box">
-                  <img :src="item.img" alt="">
-                </div>
-                <div class="title">
-                  {{item.title}}
-                </div>
-                <div class="con">
-                  {{item.con}}
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="slider-item">
-          <div class="slider-title">
-            <span>未知旅行实验室</span>
-            <span>查看更多</span>
-          </div>
-          <div class="item-con">
-            <img src="https://images.mafengwo.net/images/new-index/unknownTravel181120.png" alt="">
-          </div>
-        </div>
-        <div class="slider-item">
-          <div class="slider-title">
-            <span>加入马蜂窝</span>
-            <span>了解详情</span>
-          </div>
-          <div class="item-con">
-            <img src="https://p1-q.mafengwo.net/s13/M00/FB/6B/wKgEaVx03pWACwV_AAB9EDqNfwg64.jpeg" alt="">
-          </div>
-        </div>
-        <div class="slider-item">
-          <div class="slider-title">
-            <span>马蜂窝最新资讯</span>
-          </div>
-          <div class="item-con">
-            <ul>
-              <li>
-                <div class="date">
-                  04月23日
-                </div>
-                <div class="con">
-                  马蜂窝旅游网服务监督员召集令发布
-                </div>
-              </li>
-              <li>
-                <div class="date">
-                  04月23日
-                </div>
-                <div class="con">
-                  关于部分用户游记无法显示的说明
-                </div>
-              </li>
-              <li>
-                <div class="date">
-                  02月06日
-                </div>
-                <div class="con">
-                  正式更名为“马蜂窝旅游”
-                </div>
-              </li>
-              <li>
-                <div class="date">
-                  11月08日
-                </div>
-                <div class="con">
-                  蚂蜂窝2018蜂首台历开始预售
-                </div>
-              </li>
-              <li>
-                <div class="date">
-                  11月05日
-                </div>
-                <div class="con">
-                  蚂蜂窝赤水音乐季圆满结束
-                </div>
-              </li>
-              <li>
-                <div class="date">
-                  05月12日
-                </div>
-                <div class="con">
-                  指路人俱乐部首期面基大会圆满成功
+                  {{item.preview}}
                 </div>
               </li>
             </ul>
@@ -184,7 +63,35 @@
       </div>
       <div class="con-right">
         <div class="con-title">
-          <span>热门游记</span>
+          <div class="title-box">
+            <span>热门游记</span>
+            <el-dropdown class="prefer-filter">
+              <span class="el-dropdown-link">
+                {{prefer_text}}<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(item, index) in prefer_list"
+                  :key="index"
+                  @click.native="choose_prefer_filter($event, item.name, item.value)">
+                    {{item.name}}
+                  </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <el-dropdown>
+              <span class="el-dropdown-link">
+                {{order_text}}<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(item, index) in order_list"
+                  :key="index"
+                  @click.native="choose_order_filter($event, item.name, item.value)">
+                    {{item.name}}
+                  </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
           <el-button type="primary" @click="write_art($event)" icon="el-icon-edit">写游记</el-button>
         </div>
         <div class="con-body">
@@ -202,11 +109,26 @@
                 </div>
                 <div class="right-footer">
                   <span>
+                    <el-tag size="mini">{{prefer_list[item.category].name}}</el-tag>
                     by
                     <img :src="icon" alt=""></im>
                     <em>{{item.author || '未知'}}</em>
+                    <i class="ivu-icon ivu-icon-md-eye"></i>
+                    <em>{{item.frequency || ''}}</em>
                   </span>
                   <span>
+                    <i class="ivu-icon ivu-icon-ios-heart"
+                      @click="fav_article($event, item)"
+                      v-show="item.is_collected"></i>
+                    <i class="ivu-icon ivu-icon-ios-heart-outline"
+                      @click="fav_article($event, item)"
+                      v-show="!item.is_collected"></i>
+                    <i class="ivu-icon ivu-icon-md-thumbs-up" 
+                      @click="thumb_article($event, item)"
+                      :class="{
+                        'is-thumb': item.is_thumb
+                      }"></i>
+                    <em>{{item.thumb || ''}}</em>
                     {{utils.momentDate(item.created_time, 'date_time')}}
                   </span>
                 </div>

@@ -23,6 +23,12 @@ export class HomeService extends Service implements HomeBase<any> {
     })
   }
 
+  public getFavArtList (param: any): Promise<any> {
+    return new Promise((resolve: any) => {
+      super.get(`/api/article/${param.offset}/${param.count}`, {}, resolve)
+    })
+  }
+
   public saveAticle (param: any): Promise<any> {
     return new Promise((resolve: any) => {
       super.post('/api/article', {
@@ -73,13 +79,59 @@ export class HomeService extends Service implements HomeBase<any> {
 
   public deleteArticle (param: any): Promise<any> {
     return new Promise((resolve: any) => {
-      super.delete(`api/article/${param.pk}`, {}, resolve)
+      super.delete(`/api/article/${param.pk}`, {}, resolve)
     })
   }
 
   public getArticleItem (param: any): Promise<any> {
     return new Promise((resolve: any) => {
-      super.get(`api/article/${param.pk}`, {}, resolve)
+      super.get(`/api/article/${param.pk}`, {}, resolve)
+    })
+  }
+
+  public collectArticle (param: any): Promise<any> {
+    return new Promise((resolve: any) => {
+      super.put(`/api/article/collect/${param.pk}`, {
+        data: {}
+      }, resolve)
+    })
+  }
+
+  public thumbArticle (param: any): Promise<any> {
+    return new Promise((resolve: any) => {
+      super.put(`/api/article/thumb/${param.pk}`, {
+        data: {}
+      }, resolve)
+    })
+  }
+
+  public getCollections (param: any): Promise<any> {
+    return new Promise((resolve: any) => {
+      super.get(`/api/ucenter/articles/collections`, {}, resolve)
+    })
+  }
+
+  public saveUser (param: any): Promise<any> {
+    return new Promise((resolve: any) => {
+      super.put(`/api/ucenter/user`, {
+        data: param
+      }, resolve)
+    })
+  }
+
+  public resetPassword (param: any): Promise<any> {
+    return new Promise((resolve: any) => {
+      super.put(`/api/user/reset`, {
+        data: param
+      }, resolve)
+    })
+  }
+
+  public forgetPassword (param: any): Promise<any> {
+    return new Promise((resolve: any) => {
+      super.put(`/api/user/forget`, {
+        data: param
+      }, resolve)
     })
   }
 }

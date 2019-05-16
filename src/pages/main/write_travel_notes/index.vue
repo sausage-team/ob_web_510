@@ -23,7 +23,22 @@
         <el-dialog :visible.sync="dialogVisible">
           <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
-        <el-input placeholder="请输入标题" v-model="title" :maxlength="50" clearable></el-input>
+        <div class="input-box">
+          <el-dropdown class="prefer-filter">
+            <span class="el-dropdown-link">
+              {{prefer_text}}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                v-for="(item, index) in prefer_list"
+                :key="index"
+                @click.native="choose_prefer_filter($event, item.name, item.value)">
+                  {{item.name}}
+                </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <el-input placeholder="请输入标题" v-model="title" :maxlength="50" clearable></el-input>
+        </div>
         <div class="ckeditor">
           <textarea id="editor" :value="value" data-sample-short></textarea>
         </div>

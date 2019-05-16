@@ -120,66 +120,10 @@
 
   }
 
-  .menu-main {
-    width: 100%;
-    height: 70px;
-    max-width: 1000px;
-    margin: 20px auto;
-
-    & > ul {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: space-between;
-
-      & > li {
-        width: 160px;
-        height: 100%;
-
-        .menu-item {
-          width: 100%;
-          height: 100%;
-          border-radius: 5px;
-          cursor: pointer;
-          padding: 15px 0 0 6px;
-
-          & > span {
-            &:nth-child(1) {
-              font-size: 16px;
-              height: 22px;
-              font-weight: 600;
-              line-height: 22px;
-              word-break: break-all;
-              display: block;
-            }
-
-            &::nth-child(2) {
-              display: inline-block;
-              height: 16px;
-              padding-top: 1px;
-              font-size: 11px;
-              font-weight: 400;
-              line-height: 16px;
-            }
-          }
-        }
-
-        @for $n from 1 through 6 {
-          &:nth-child(#{$n}) {
-            .menu-item {
-              @extend .menu_icon#{$n};
-            }
-          }
-        }
-      }
-    }
-
-  }
-
   .con-body {
     width: 100%;
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 20px auto 10px auto;
     display: flex;
     justify-content: space-between;
 
@@ -188,6 +132,7 @@
 
       .tip {
         width: 100%;
+        cursor: pointer;
 
         & > img {
           width: 100%;
@@ -339,6 +284,12 @@
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+                cursor: pointer;
+
+                &:hover {
+                  text-decoration: underline;
+                  color: #3794FF;
+                }
               }
 
               .con {
@@ -346,6 +297,7 @@
                 line-height: 20px;
                 font-size: 14px;
                 overflow: hidden;
+                @include elliosis_line(3);
               }
             }
           }
@@ -365,8 +317,19 @@
         justify-content: space-between;
         align-items: center;
 
-        & > span {
-          font-size: 16px;
+        .title-box {
+          & > span {
+            font-size: 16px;
+            margin-right: 10px;
+          }
+
+          .prefer-filter {
+            margin-right: 10px;
+          }
+
+          .el-dropdown {
+            cursor: pointer;
+          }
         }
 
         & > .el-button {
@@ -427,6 +390,7 @@
                 font-size: 14px;
                 overflow: hidden;
                 color: #666;
+                @include elliosis_line(4);
               }
 
               .right-footer {
@@ -439,9 +403,44 @@
                 & > span {
                   display: flex;
                   align-items: center;
+                  line-height: 33px;
+
+                  .el-tag {
+                    margin-right: 10px;
+                  }
 
                   & > em {
-                    color: #ff9d00;
+                    &:nth-child(3) {
+                      color: #ff9d00;
+                    }
+                    &:nth-child(5) {
+                      color: #999;
+                    }
+
+                    &:nth-child(4) {
+                      margin-right: 15px;
+                    }
+                  }
+
+                  & > .ivu-icon {
+                    margin: 0 2px 0 10px;
+                    font-size: 14px;
+                    color: #999;
+                    cursor: pointer;
+
+                    &:nth-child(1),
+                    &:nth-child(2),
+                    &:nth-child(3) {
+                      margin: 0 10px;
+                      font-size: 18px;
+                    }
+
+                    &:nth-child(3) {
+                      margin: 0 2px 0 10px;
+                      &.is-thumb {
+                        color: #EDA730;
+                      }
+                    }
                   }
 
                   & > img {

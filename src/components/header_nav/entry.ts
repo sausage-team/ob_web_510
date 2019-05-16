@@ -1,4 +1,4 @@
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
 
 @Component
 export default class HeaderNav extends Vue {
@@ -8,6 +8,8 @@ export default class HeaderNav extends Vue {
   public userData: any = this.cookies.get('user_data') ? JSON.parse(this.cookies.get('user_data')) : {}
 
   public icon: any = localStorage.getItem('icon')
+
+  public person_modal: boolean = false
 
   public created (): void {
     this.routeCheck()
@@ -24,10 +26,22 @@ export default class HeaderNav extends Vue {
       case 'person':
         this.activeIndex = '3'
         break
+      case 'collection':
+        this.activeIndex = '4'
+        break
       default:
         this.activeIndex = '1'
         break
     }
+  }
+
+  @Emit()
+  public close_person_modal (): void {
+    this.person_modal = false
+  }
+
+  public open_person_modal (): void {
+    this.person_modal = true
   }
 
   @Watch('$route')

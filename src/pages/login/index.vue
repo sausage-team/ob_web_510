@@ -1,5 +1,6 @@
 <template>
   <div class="login-main">
+    <finder-modal v-model="finder_modal" @close_finder_modal="close_finder_modal" />
     <div class="flur-box" ref="login_main"></div>
     <div class="login-body">
       <div class="login-logo"></div>
@@ -21,6 +22,9 @@
       <div class="login-footer">
         <span>还没有账号?</span>
         <em @click="register">马上注册</em>
+        <br>
+        <span>如果忘记密码,</span>
+        <em @click="finder_pwd">找回密码</em>
       </div>
     </div>
   </div>
