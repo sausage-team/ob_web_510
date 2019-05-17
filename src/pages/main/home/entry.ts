@@ -158,10 +158,11 @@ export default class Home extends Vue {
       if (this.img_list.length > 0) {
         this.img = this.img_list[this.count % this.img_list.length]
       }
-    }, 10000)
+    }, 20000)
   }
 
-  public searchList (): void {
+  public searchList (e: any): void {
+    e.stopPropagation()
     this.params.offset = 0
     this.search()
   }
