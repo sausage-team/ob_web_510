@@ -16,7 +16,7 @@
           <span>{{img.title}}</span>
         </div>
         <div class="search-box">
-          <el-input v-model="searchText" @click.native="$event.stopPropagation()" @keyup.enter.native="searchList()" placeholder="搜目的地/攻略/酒店/旅行特价"></el-input>
+          <el-input v-model="searchText" @click.native="$event.stopPropagation()" @keyup.enter.native="searchList($event)" placeholder="搜目的地/攻略/酒店/旅行特价"></el-input>
           <el-button icon="el-icon-search" type="primary" @click="searchList($event)"></el-button>
         </div>
         <div class="menu-list">
