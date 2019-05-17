@@ -2,15 +2,14 @@
   <div class="home-main">
     <div class="slider-main">
       <detail-modal v-model="modals.detail_modal" @close_detail_modal="close_detail_modal" :art-id="art_id" />
-      <slider-modal v-model="modals.slider_modal" :url="img" @close_slider_modal="close_slider_modal" />
       <tip-modal v-model="modals.tip_modal" @close_tip_modal="close_tip_modal"></tip-modal>
-      <div class="slider-image">
-        <img :src="img.url" alt="">
+      <div class="slider-image" v-show="img_list.length > 0">
+        <img :src="img.cover" alt="">
       </div>
-      <div class="slider-con" @click="open_slider_modal">
+      <div class="slider-con"  v-show="img_list.length > 0" @click="toDetail($event, img)">
         <div class="title-Date">
           <span>
-            <em>{{img.day}}</em>/{{img.date}}
+            <em>{{utils.momentDate(img.created_time, 'day')}}</em>/{{(utils.momentDate(img.created_time, 'month_year'))}}
           </span>
         </div>
         <div class="title-con">
@@ -25,7 +24,7 @@
             <li v-for="(item, index) in img_list"
               :class="{'active': count % 5 === index}"
               @click="chooseImg($event, index)">
-              <img :src="item.url" alt="">
+              <img :src="item.cover" alt="">
             </li>
           </ul>
         </div>

@@ -1,21 +1,6 @@
 import moment from 'moment'
 
 export class Util {
-  public getType (str: string = '') {
-    const fieldReg = RegExp(/tb/)
-    const folderReg = RegExp(/folder/)
-    const dsReg = RegExp(/ds/)
-
-    if (str.match(fieldReg)) {
-      return 'field'
-    } else if (str.match(folderReg)) {
-      return 'folder'
-    } else if (str.match(dsReg)) {
-      return 'ds'
-    } else {
-      return ''
-    }
-  }
 
   public momentDate (num: any, type: string = '') {
     if (num) {
@@ -38,32 +23,14 @@ export class Util {
           return moment(num).format('HH:mm:ss')
         case 'time_h':
           return moment(num).format('HH:mm')
+        case 'month_year':
+          return moment(num).format('MMMM/YYYY')
+        case 'day':
+          return moment(num).format('DD')
       }
     } else {
       return ''
     }
-  }
-
-  public fileCheck (checkList: any[], str: string) {
-    let res = false
-    checkList.forEach((item: any) => {
-      if (item.test(str)) {
-        res = true
-      }
-    })
-    return res
-  }
-
-  public checkListInner (list: any[] = [], item: any, checkStr: string = '') {
-    let res = false
-    list.forEach((n: any) => {
-      if (checkStr && n[checkStr] === item[checkStr]) {
-        res = true
-      } else if (!checkStr && n === item) {
-        res = true
-      }
-    })
-    return res
   }
 }
 
