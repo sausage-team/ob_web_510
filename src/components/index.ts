@@ -3,6 +3,7 @@ import DetailModal from './detail_modal/index.vue'
 import TipModal from './tip_modal/index.vue'
 import PersonModal from './person_modal/index.vue'
 import FinderModal from './finder_modal/index.vue'
+import SliderModal from './slider_modal/index.vue'
 
 interface ComponentBase {
   init (vue: any): void
@@ -15,6 +16,7 @@ class GlobalComponents {
     vue.component('TipModal', TipModal)
     vue.component('PersonModal', PersonModal)
     vue.component('FinderModal', FinderModal)
+    vue.component('SliderModal', SliderModal)
   }
 }
 

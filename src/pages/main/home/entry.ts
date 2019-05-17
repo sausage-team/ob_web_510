@@ -55,12 +55,47 @@ export default class Home extends Vue {
   public filter_type: number = 0
   public sort_type: number = 0
 
-  public img_list: string[] = [
-    'https://n2-q.mafengwo.net/s13/M00/4D/99/wKgEaVzWeoWAUU_bAAs2IhV-Ei449.jpeg?imageMogr2%2Finterlace%2F1',
-    'https://b2-q.mafengwo.net/s13/M00/4B/E5/wKgEaVzWeXaAVxyQAAkiLzvilDQ16.jpeg?imageMogr2%2Finterlace%2F1',
-    'https://n4-q.mafengwo.net/s13/M00/65/57/wKgEaVzVZ0CAZev-AAlkQYixUeE14.jpeg?imageMogr2%2Finterlace%2F1',
-    'https://p2-q.mafengwo.net/s13/M00/95/C7/wKgEaVzT6LKAbcE1AAj3FOEdO0M01.jpeg?imageMogr2%2Finterlace%2F1',
-    'https://b4-q.mafengwo.net/s13/M00/42/6D/wKgEaVzSOGWAXY0HAAqIpxTd3O000.jpeg?imageMogr2%2Finterlace%2F1'
+  public img_list: any[] = [
+    {
+      url: 'https://n3-q.mafengwo.net/s13/M00/F6/37/wKgEaVzaom-AQg1DAAco8lqtjoM05.jpeg' +
+      '?imageMogr2%2Finterlace%2F1',
+      title: '✈️咻，我在曼谷「撸飞机」（含最新小众景点评测！）',
+      day: '15',
+      date: 'May.2019',
+      go: 'https://www.mafengwo.cn/i/11794902.html'
+    },
+    {
+      url: 'https://n1-q.mafengwo.net/s13/M00/3A/DB/wKgEaVzZbqqAXVlYAAoObFUgWgI49.jpeg?' +
+      'imageMogr2%2Finterlace%2F1',
+      title: '那年，我们在台湾由北向南的青春狂欢',
+      day: '14',
+      date: 'May.2019',
+      go: 'https://www.mafengwo.cn/i/12329386.html'
+    },
+    {
+      url: 'https://n2-q.mafengwo.net/s13/M00/4D/99/wKgEaVzWeoWAUU_bAAs2IhV-Ei449.jpeg' +
+      '?imageMogr2%2Finterlace%2F1',
+      title: '周末去越南，史上最惊心动魄的流浪挑战 （含丢护照现金自救指南+美食干货）',
+      day: '13',
+      date: 'May.2019',
+      go: 'https://www.mafengwo.cn/i/12466050.html'
+    },
+    {
+      url: 'https://b2-q.mafengwo.net/s13/M00/4B/E5/wKgEaVzWeXaAVxyQAAkiLzvilDQ16.jpeg?' +
+      'imageMogr2%2Finterlace%2F1',
+      title: '带娘亲打卡长沙，却被暴雨逼成美食博主...',
+      day: '12',
+      date: 'May.2019',
+      go: 'https://www.mafengwo.cn/i/12610318.html'
+    },
+    {
+      url: 'https://n4-q.mafengwo.net/s13/M00/65/57/wKgEaVzVZ0CAZev-AAlkQYixUeE14.jpeg?' +
+      'imageMogr2%2Finterlace%2F1',
+      title: '春夏秋冬·我在北京度过四季',
+      day: '11',
+      date: 'May.2019',
+      go: 'https://www.mafengwo.cn/i/12267450.html'
+    }
   ]
 
   public params: any = {
@@ -102,7 +137,7 @@ export default class Home extends Vue {
     }
   ]
 
-  public img: string = this.img_list[0]
+  public img: any = this.img_list[0]
 
   public interVal: any
 
@@ -150,6 +185,15 @@ export default class Home extends Vue {
   @Emit()
   public close_tip_modal (): void {
     this.modals.tip_modal = false
+  }
+
+  @Emit()
+  public close_slider_modal (): void {
+    this.modals.slider_modal = false
+  }
+
+  public open_slider_modal (): void {
+    this.modals.slider_modal = true
   }
 
   public choose_prefer_filter (e: any, name: string, id: number): void {
@@ -299,12 +343,15 @@ export default class Home extends Vue {
 class Modal {
   public detail_modal: boolean
   public tip_modal: boolean
+  public slider_modal: boolean
 
   constructor () {
     [
       this.detail_modal,
-      this.tip_modal
+      this.tip_modal,
+      this.slider_modal
     ] = [
+      false,
       false,
       false
     ]
