@@ -2,6 +2,8 @@
 
 [项目地址](https://github.com/sausage-team/ob_web_510)
 
+[服务端源码](https://github.com/sausage-team/travel-notes)
+
 * node 安装(稳定版 10.15.3)
 * node环境配置[（环境搭建）](https://www.cnblogs.com/liuqiyun/p/8133904.html)
 * 依赖环境安装
